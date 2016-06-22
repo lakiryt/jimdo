@@ -91,6 +91,21 @@ ScreenshotFolder(){
   defaults write com.apple.screencapture location ~/${path}
 }
 
+ScreenshotShadow(){
+  printf "ウィンドーのスクリーンショットに影を追加しますか？(はい:1 いいえ:0)"
+  while :
+  do
+    read ans
+    case ${ans} in
+      1)defaults write com.apple.screencapture disable-shadow -bool false
+        break;;
+      0)defaults write com.apple.screencapture disable-shadow -bool true
+        break;;
+      *)printf "1か0を入力してください。もしくはCtrl+Cで中断してください。";;
+    esac
+  done
+}
+
 ### END FUNCTIONS ###
 
 
@@ -104,7 +119,8 @@ printf "3) 左サイドにスペーサーを挿入\n"
 printf "4) 右サイドにスペーサーを挿入\n"
 printf "5) 最近使った項目を挿入\n\n"
 printf "【システム設定】\n"
-printf "6) スクリーンショットの保存場所の変更\n\n"
+printf "6) スクリーンショットの保存場所の変更\n"
+printf "7) ウィンドーのスクリーンショットの影の有無\n\n"
 printf "行う設定を選択してください。（整数1-6、全て実行する場合は0。中断は^C）\n"
 
 while :
@@ -149,8 +165,13 @@ break;;
   ScreenshotFolder
   killall SystemUIServer
 break;;
+7)
+  ScreenshotShadow
+  killall SystemUIServer
+break;;
 
-*)printf "整数1-6を選択してください。全て実行する場合は0、中断はCtrl+Cです。";;
+
+*)printf "整数1-7を選択してください。全て実行する場合は0、中断はCtrl+Cです。";;
 esac
 
 done
